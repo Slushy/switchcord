@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 const createWindow = () => {
@@ -11,9 +11,8 @@ const createWindow = () => {
       contextIsolation: false,
     },
   });
-
   win.loadFile(path.join(__dirname, '..', 'resources', 'index.html'));
-//   win.webContents.toggleDevTools();
+  //   win.webContents.toggleDevTools();
 };
 
 app.on('window-all-closed', () => {
@@ -27,4 +26,24 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+});
+
+let discordRPC = null;
+ipcMain.handle('start_playing', (e, { name, imageKey }) => {
+  console.log(name, imageKey);
+
+  discordRPC = require('discord-rich-presence')('1098793900291936278');
+  discordRPC.updatePresence({
+    details: `Playing ${name}`,
+    startTimestamp: Date.now(),
+    largeImageKey: imageKey,
+    largeImageText: name,
+    smallImageKey: 'switch_logo',
+    smallImageText: 'Nintendo Switch',
+    instance: false,
+  });
+});
+
+ipcMain.handle('stop_playing', () => {
+  discordRPC?.disconnect();
 });

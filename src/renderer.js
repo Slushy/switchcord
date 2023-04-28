@@ -21,9 +21,12 @@ const initialize = () => {
     if (toggleStatusButton.innerText === START_PLAYING_TEXT) {
       toggleStatusButton.innerText = STOP_PLAYING_TEXT;
       gameSelect.disabled = true;
+      const game = games.find((g) => g.name === gameSelect.value);
+      ipcRenderer.invoke('start_playing', game);
     } else {
       toggleStatusButton.innerText = START_PLAYING_TEXT;
       gameSelect.disabled = false;
+      ipcRenderer.invoke('stop_playing');
     }
   };
 };
