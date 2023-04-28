@@ -1,0 +1,8 @@
+{
+  "name": "switchcord",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "discord-rich-presence": "^0.0.8"
+  }
+}
