@@ -13,7 +13,7 @@ const createWindow = () => {
     },
   });
   win.loadFile(path.join(__dirname, '..', 'resources', 'index.html'));
-  //   win.webContents.toggleDevTools();
+  win.setMenu(null);
 };
 
 app.on('window-all-closed', () => {
