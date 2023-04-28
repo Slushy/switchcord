@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+    <title>SwitchCord - Display your switch games in Discord</title>
+  </head>
+  <body>
+    <h1>Keep this app open while you are playing on your switch</h1>
+    <div>
+      <select id="game-select"></select
+      ><button id="toggleStatusButton"></button>
+    </div>
+    <script src="../src/renderer.js"></script>
+  </body>
+</html>
