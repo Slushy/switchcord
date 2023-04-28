@@ -33,7 +33,7 @@ let discordClient = null;
 ipcMain.handle('start_playing', (e, { name, imageKey }) => {
   discordClient = discordRPC('1098793900291936278');
   discordClient.updatePresence({
-    details: `Playing ${name}`,
+    details: `${name}`,
     startTimestamp: Date.now(),
     largeImageKey: imageKey,
     largeImageText: name,
