@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -10,8 +11,8 @@ const createWindow = () => {
     },
   });
 
-  win.loadFile('../resources/index.html');
-  win.webContents.toggleDevTools();
+  win.loadFile(path.join(__dirname, '..', 'resources', 'index.html'));
+//   win.webContents.toggleDevTools();
 };
 
 app.on('window-all-closed', () => {
