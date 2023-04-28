@@ -1,10 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const discordRPC = require('discord-rich-presence');
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 800,
-    height: 300,
+    width: 600,
+    height: 250,
     resizable: false,
     webPreferences: {
       nodeIntegration: true,
@@ -28,12 +29,10 @@ app.whenReady().then(() => {
   });
 });
 
-let discordRPC = null;
+let discordClient = null;
 ipcMain.handle('start_playing', (e, { name, imageKey }) => {
-  console.log(name, imageKey);
-
-  discordRPC = require('discord-rich-presence')('1098793900291936278');
-  discordRPC.updatePresence({
+  discordClient = discordRPC('1098793900291936278');
+  discordClient.updatePresence({
     details: `Playing ${name}`,
     startTimestamp: Date.now(),
     largeImageKey: imageKey,
@@ -45,5 +44,5 @@ ipcMain.handle('start_playing', (e, { name, imageKey }) => {
 });
 
 ipcMain.handle('stop_playing', () => {
-  discordRPC?.disconnect();
+  discordClient?.disconnect();
 });
