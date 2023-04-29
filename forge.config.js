@@ -5,7 +5,8 @@ module.exports = {
   rebuildConfig: {},
   makers: [
     {
-      name: "@rabbitholesyndrome/electron-forge-maker-portable"
+      name: '@electron-forge/maker-squirrel',
+      config: {},
     },
     {
       name: '@electron-forge/maker-zip',

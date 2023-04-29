@@ -2,6 +2,9 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const discordRPC = require('discord-rich-presence');
 
+// run this as early in the main process as possible
+if (require('electron-squirrel-startup')) app.quit();
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 600,
