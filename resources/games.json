@@ -1,6 +1,10 @@
 [
   {
     "name": "The Legend of Zelda: Breath of the Wild",
-    "imageKey": "zelda_botw"
+    "appId": "1098793900291936278"
+  },
+  {
+    "name": "The Legend of Zelda: Tears of the Kingdom",
+    "appId": "1101684036029665290"
   }
 ]

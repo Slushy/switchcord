@@ -13,6 +13,7 @@ const startPlaying = () => {
   toggleStatusButton.innerText = STOP_PLAYING_TEXT;
   gameSelect.disabled = true;
   const game = gamesJSON.find((g) => g.name === gameSelect.value);
+  localStorage.setItem('last-game', game.name);
   ipcRenderer.invoke('start_playing', game);
   document.body.classList.add('playing');
 
@@ -30,7 +31,10 @@ const stopPlaying = () => {
 
 const initialize = () => {
   // build game select
-  const optionHTML = gamesJSON.map((g) => `<option value="${g.name}">${g.name}</option>`);
+  const lastSelectedGame = localStorage.getItem('last-game');
+
+
+  const optionHTML = gamesJSON.map((g) => `<option value="${g.name}" ${lastSelectedGame === g.name ? 'selected="selected"' : ''}}>${g.name}</option>`);
   gameSelect.innerHTML = optionHTML;
 
   // setup button to toggle playing

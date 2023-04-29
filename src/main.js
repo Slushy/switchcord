@@ -17,6 +17,7 @@ const createWindow = () => {
   });
   win.loadFile(path.join(__dirname, '..', 'resources', 'index.html'));
   win.setMenu(null);
+  // win.webContents.toggleDevTools();
 };
 
 app.on('window-all-closed', () => {
@@ -33,12 +34,13 @@ app.whenReady().then(() => {
 });
 
 let discordClient = null;
-ipcMain.handle('start_playing', (e, { name, imageKey }) => {
-  discordClient = discordRPC('1098793900291936278');
+ipcMain.handle('start_playing', (e, { name, appId }) => {
+  discordClient?.disconnect();
+  discordClient = discordRPC(appId);
   discordClient.updatePresence({
-    details: `${name}`,
+    details: `Playing on Nintendo Switch`,
     startTimestamp: Date.now(),
-    largeImageKey: imageKey,
+    largeImageKey: "game_logo",
     largeImageText: name,
     smallImageKey: 'switch_logo',
     smallImageText: 'Nintendo Switch',
@@ -48,4 +50,5 @@ ipcMain.handle('start_playing', (e, { name, imageKey }) => {
 
 ipcMain.handle('stop_playing', () => {
   discordClient?.disconnect();
+  discordClient = null;
 });
