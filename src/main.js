@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const robot = require('robotjs');
+const { app, BrowserWindow, ipcMain, powerMonitor } = require('electron');
 const path = require('path');
 const discordRPC = require('discord-rich-presence');
 
@@ -33,22 +34,35 @@ app.whenReady().then(() => {
   });
 });
 
-let discordClient = null;
+let discordClient = null,
+  preventIdleTimer = -1;
 ipcMain.handle('start_playing', (e, { name, appId }) => {
   discordClient?.disconnect();
   discordClient = discordRPC(appId);
   discordClient.updatePresence({
     details: `Playing on Nintendo Switch`,
     startTimestamp: Date.now(),
-    largeImageKey: "game_logo",
+    largeImageKey: 'game_logo',
     largeImageText: name,
     smallImageKey: 'switch_logo',
     smallImageText: 'Nintendo Switch',
     instance: false,
   });
+
+  clearInterval(preventIdleTimer);
+  preventIdleTimer = setInterval(() => {
+    const mousePos = robot.getMousePos();
+    if (powerMonitor.getSystemIdleState(180) === 'idle') {
+      console.log('moving mouse');
+      robot.moveMouse(mousePos.x, mousePos.y);
+    }
+
+    console.log(`mouse: ${mousePos.x},${mousePos.y}, idleTime: ${powerMonitor.getSystemIdleTime()}`);
+  }, 1000 * 60 * 1); // every 1 minute
 });
 
 ipcMain.handle('stop_playing', () => {
   discordClient?.disconnect();
   discordClient = null;
+  clearInterval(preventIdleTimer);
 });
