@@ -53,11 +53,8 @@ ipcMain.handle('start_playing', (e, { name, appId }) => {
   preventIdleTimer = setInterval(() => {
     const mousePos = robot.getMousePos();
     if (powerMonitor.getSystemIdleState(180) === 'idle') {
-      console.log('moving mouse');
       robot.moveMouse(mousePos.x, mousePos.y);
     }
-
-    console.log(`mouse: ${mousePos.x},${mousePos.y}, idleTime: ${powerMonitor.getSystemIdleTime()}`);
   }, 1000 * 60 * 1); // every 1 minute
 });
 
